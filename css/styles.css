@@ -1,0 +1,175 @@
+/* Minimal reset */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg: #ffffff; /* light: white */
+  --text: #111111; /* primary text on light */
+  --header-bg: #f3f4f6; /* light header */
+  --primary: #2563eb;
+  --accent: #16a34a;
+  --muted: #6b7280;
+  --card-bg: #f3f4f6; /* project card background in light mode (light gray) */
+  --field-bg: #ffffff;
+  --field-border: rgba(0,0,0,0.08);
+  --field-text: var(--text);
+  --placeholder: #6b7280;
+  /* Local wallpaper (place wallpaper.jpg in the project root). Remote fallback kept as a backup. */
+  --wallpaper: url('wallpaper.jpg');
+  --wallpaper-remote: url('https://static.vecteezy.com/system/resources/thumbnails/008/969/361/small_2x/multi-layers-gray-blue-dark-texture-3d-papercut-layers-in-gradient-banner-abstract-paper-cut-art-background-design-for-website-template-topography-map-concept-or-smooth-origami-paper-cut-vector.jpg');
+  --bg-overlay: rgba(255,255,255,0.86);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg: #0b0f12;
+    --text: #e6eef3;
+    --header-bg: #0b1220;
+    --primary: #3b82f6;
+    --accent: #34d399;
+    --muted: #9aa4ad;
+  }
+}
+
+/* Explicit dark class so JS toggle works regardless of system preference */
+.dark{
+  --bg: #000000; /* dark: black */
+  --text: #ffffff; /* text on dark */
+  --header-bg: #0b0b0b;
+  --primary: #3b82f6;
+  --accent: #34d399;
+  --muted: #9aa4ad;
+  --card-bg: #111827; /* project card background in dark mode (darker gray) */
+  --field-bg: #071019;
+  --field-border: #233240;
+  --field-text: #e6eef3;
+  --placeholder: #9aa4ad;
+  --bg-overlay: rgba(0,0,0,0.6);
+}
+
+/* Smooth transitions when theme changes */
+body, .site-header, .site-nav, .btn, input, textarea{transition:background-color 180ms ease,color 180ms ease,border-color 180ms ease}
+html,body{height:100%;font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial}
+body{line-height:1.6;color:var(--text);background-image:linear-gradient(var(--bg-overlay),var(--bg-overlay)), var(--wallpaper), var(--wallpaper-remote);background-size:cover;background-position:center;background-attachment:fixed;-webkit-font-smoothing:antialiased}
+
+.container{width:90%;max-width:1000px;margin:0 auto}
+
+.site-header{background:var(--header-bg);color:var(--text)}
+.site-header .container{display:flex;align-items:center;justify-content:space-between;padding:1rem}
+.logo{font-size:1.125rem;font-weight:600;letter-spacing:0.4px}
+.nav-toggle{display:none;background:transparent;border:0;color:inherit;font-size:1.25rem}
+.site-nav a{color:inherit;text-decoration:none;margin-left:1rem}
+
+.nav-link{margin-left:1.25rem;padding:6px 8px;border-radius:6px}
+.nav-link:hover{background:rgba(0,0,0,0.04)}
+
+.header-actions{display:flex;align-items:center;gap:0.5rem}
+.theme-toggle{background:transparent;border:0;color:var(--primary);font-size:1.05rem;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700;transition:background-color 180ms ease,color 180ms ease,transform 120ms ease}
+.theme-toggle:hover{background:rgba(0,0,0,0.04);transform:translateY(-1px)}
+.theme-toggle:focus{outline:2px solid rgba(37,99,235,0.18);outline-offset:2px}
+
+/* Dark-mode specific color for the theme toggle to distinguish it */
+html.dark .theme-toggle{color:var(--accent);background:rgba(255,255,255,0.02)}
+
+.hero{padding:4.5rem 0;display:block}
+.hero-content{max-width:820px}
+.hero-title{font-size:2.25rem;margin:0 0 0.5rem 0}
+.lead{color:var(--muted);font-size:1.05rem}
+.hero-ctas{margin-top:1.25rem;display:flex;gap:0.75rem}
+.btn{display:inline-block;padding:0.75rem 1.1rem;border-radius:10px;text-decoration:none;font-weight:600}
+.btn.primary{background:var(--primary);color:#fff}
+.btn.ghost{background:var(--primary);color:#fff;border:0}
+.btn.ghost:hover{opacity:0.95}
+
+/* Ensure the ghost CTA matches the primary CTA in dark mode */
+html.dark .btn.ghost {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+  box-shadow: none;
+  opacity: 1;
+}
+html.dark .btn.ghost:hover,
+html.dark .btn.ghost:focus {
+  filter: brightness(0.95);
+}
+
+
+section.container{padding:3rem 0}
+.site-footer{padding:2rem 0;text-align:center;color:var(--muted);border-top:1px solid rgba(0,0,0,0.04);margin-top:3rem}
+
+/* Responsive nav */
+@media (max-width:640px){
+  .nav-toggle{display:block}
+  .site-nav{display:none;flex-direction:column;margin-top:0.5rem}
+  .site-nav a{margin:0.35rem 0}
+}
+
+/* Form styles (use theme variables so fields match light/dark) */
+form label{display:block;margin:0.5rem 0}
+input[type="text"],input[type="email"],textarea{
+  width:100%;
+  padding:0.6rem;
+  border:1px solid var(--field-border);
+  background:var(--field-bg);
+  color:var(--field-text);
+  border-radius:8px;
+}
+input::placeholder,textarea::placeholder{color:var(--placeholder)}
+button[type="submit"]{margin-top:0.5rem;padding:0.6rem 1rem;background:var(--primary);color:#fff;border:0;border-radius:8px}
+
+/* Projects grid and large icon cards */
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-top:1rem}
+.project-card{background:var(--card-bg);border:1px solid rgba(0,0,0,0.06);padding:1rem;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;text-align:center;aspect-ratio:1 / 1;overflow:hidden}
+.project-card h4{margin:0;font-size:1.05rem}
+.project-card p{margin:0;color:var(--muted);font-size:0.95rem}
+.project-icon{font-size:3.5rem;line-height:1;background:transparent;padding:.25rem;border-radius:12px;margin-bottom:0.5rem}
+.project-card:hover{transform:translateY(-8px);box-shadow:0 18px 40px rgba(2,6,23,0.08);transition:transform 240ms ease,box-shadow 240ms ease}
+
+@media (max-width:640px){
+  .projects-grid{grid-template-columns:1fr;}
+  .project-card{aspect-ratio:auto;padding:0.9rem;flex-direction:row;align-items:center;gap:0.75rem}
+  .project-icon{font-size:2.25rem;margin-bottom:0}
+  .project-card h4{font-size:1rem}
+}
+
+/* Icon colors: default and per-card accents */
+.project-icon{color:var(--primary);transition:color 180ms ease,transform 160ms ease}
+.projects-grid .project-card:nth-child(1) .project-icon{color:#2563eb}
+.projects-grid .project-card:nth-child(2) .project-icon{color:#16a34a}
+.projects-grid .project-card:nth-child(3) .project-icon{color:#f59e0b}
+
+/* Explicit overrides for dark mode to guarantee visible changes */
+html.dark body{color:#ffffff}
+html.dark .site-header{background:#0b0b0b;color:#ffffff}
+html.dark .site-nav a{color:#e6f0ff}
+html.dark .btn{background:#1e40af}
+html.dark input,html.dark textarea{background:#071019;border-color:#233240;color:#e6eef3}
+/* Project cards use the theme card background in dark mode for a stronger, consistent look */
+html.dark .project-card{background:var(--card-bg);border-color:rgba(255,255,255,0.06)}
+
+/* Dark-mode icon accents for project cards */
+html.dark .projects-grid .project-card:nth-child(1) .project-icon{color:#93c5fd}
+html.dark .projects-grid .project-card:nth-child(2) .project-icon{color:#34d399}
+html.dark .projects-grid .project-card:nth-child(3) .project-icon{color:#fbbf24}
+html.dark .site-footer{color:#9aa4ad}
+
+/* Force primary and ghost CTAs to match in dark mode */
+html.dark .btn.primary,
+html.dark .btn.ghost {
+  background: var(--primary);
+  color: #fff;
+  border: 0;
+  box-shadow: none;
+}
+
+/* Skills badges */
+.skills-list{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.5rem}
+.skill{background:rgba(37,99,235,0.08);color:var(--primary);padding:0.35rem 0.6rem;border-radius:999px;font-weight:600;font-size:0.9rem;border:1px solid rgba(37,99,235,0.12)}
+
+html.dark .skill{background:rgba(59,130,246,0.08);color:var(--primary);border-color:rgba(59,130,246,0.12)}
+
+/* Contact form improvements (minor spacing) */
+form{margin-top:0.5rem}
+form label{display:block;margin:0.6rem 0}
+button[type="submit"].btn{padding:0.65rem 1rem;border-radius:8px}
+
+
+

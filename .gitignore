@@ -1,0 +1,6 @@
+# Ignore common OS and editor files
+node_modules/
+.vscode/
+.DS_Store
+.env
+.aws-amplify
